@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  rdiff-backup:
+    build: .
+    ports:
+      - "22000:22"
+    volumes:
+      - "./authorized_keys:/home/backup/authorized_keys"
+      - "backup:/backup"
+
+volumes:
+  backup:
