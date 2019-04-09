@@ -2,7 +2,7 @@ version: '3'
 
 services:
   rdiff-backup:
-    image: mdurys/rdiff-backup-server
+    build: .
     ports:
       - "12321:22"
     volumes:
