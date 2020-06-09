@@ -2,6 +2,12 @@ FROM alpine:3.9
 
 LABEL maintainer="michal@durys.pl"
 
+HEALTHCHECK --interval=5s --timeout=1s --retries=5 CMD ["/docker-healthcheck.sh"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+EXPOSE 22
+
 RUN addgroup -S backup && \
     adduser -S backup -G backup -s /bin/ash && \
     echo "backup:" | chpasswd
@@ -16,11 +22,5 @@ RUN mkdir /var/run/sshd && \
 RUN apk add --no-cache \
 	openssh-server \
 	rdiff-backup
-
-HEALTHCHECK --interval=5s --timeout=1s --retries=5 CMD ["/docker-healthcheck.sh"]
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-EXPOSE 22
 
 CMD /usr/sbin/sshd -D -E /var/log/auth.log
